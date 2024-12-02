@@ -1,0 +1,203 @@
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  }
+
+  /* Remove all other scrollbars and keep only one for the main content */
+  .security-container {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  /* Remove any potential nested scrollbars */
+  .section {
+    margin-bottom: 40px;
+    overflow: visible;
+  }
+
+  mat-sidenav-container {
+    overflow: visible;
+  }
+
+  mat-sidenav-content {
+    overflow: visible;
+  }
+
+  .form-group {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+
+  .form-label {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    padding: 0 5px;
+    color: #666;
+    transition: 0.2s ease all;
+    pointer-events: none;
+  }
+
+  .form-control:focus + .form-label,
+  .form-control:not(:placeholder-shown) + .form-label {
+    top: 0;
+    font-size: 12px;
+    color: #333;
+  }
+
+  .password-container {
+    position: relative;
+  }
+
+  .visibility-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+  }
+
+  .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+  }
+
+  .form-control:invalid ~ .error-message {
+    display: block;
+  }
+
+  .two-factor-status {
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 4px;
+    margin: 20px 0;
+  }
+
+  .section-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .button {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: none;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+  .button-primary {
+    background: #1976d2;
+    color: white;
+    border: none;
+  }
+</style>
+
+<div class="security-container">
+  <!-- Login Section -->
+  <div class="section">
+    <h2 class="section-title">Login</h2>
+    
+    <form>
+      <div class="form-group">
+        <input type="email" class="form-control" id="email" placeholder=" " required>
+        <label for="email" class="form-label">Email</label>
+        <div class="error-message">Email is required</div>
+      </div>
+
+      <div class="form-group">
+        <div class="password-container">
+          <input type="password" class="form-control" id="password" placeholder=" " required>
+          <label for="password" class="form-label">Password</label>
+          <button type="button" class="visibility-toggle" onclick="togglePassword()">
+            Show
+          </button>
+        </div>
+        <div class="error-message">Password is required</div>
+      </div>
+
+      <button type="submit" class="button button-primary">Login</button>
+    </form>
+  </div>
+
+  <!-- Two-Factor Authentication Section -->
+  <!-- Two-Factor Authentication Section -->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Two-Factor Authentication</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="two-factor-status">
+        <div class="status-info">
+          <h3>2FA Status</h3>
+          <p aria-live="polite">Your account is {{tfaEnabled ? 'protected' : 'not protected'}} by two-factor authentication</p>
+        </div>
+        <mat-slide-toggle [checked]="tfaEnabled" aria-label="Enable or disable two-factor authentication" (change)="onTfaToggle($event)">
+          {{tfaEnabled ? 'Enabled' : 'Disabled'}}
+        </mat-slide-toggle>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Profile Settings Section -->
+  <div class="section">
+    <h2 class="section-title">Profile Settings</h2>
+    
+    <form>
+      <div class="form-group">
+        <input type="text" class="form-control" id="fullName" placeholder=" " required>
+        <label for="fullName" class="form-label">Full Name</label>
+        <div class="error-message">Full name is required</div>
+      </div>
+
+      <div class="form-group">
+        <input type="email" class="form-control" id="profileEmail" placeholder=" " required>
+        <label for="profileEmail" class="form-label">Email</label>
+        <div class="error-message">Email is required</div>
+      </div>
+
+      <div class="form-group">
+        <input type="tel" class="form-control" id="phone" placeholder=" ">
+        <label for="phone" class="form-label">Phone</label>
+      </div>
+
+      <button type="submit" class="button button-primary">Update Profile</button>
+      <button type="reset" class="button">Reset</button>
+    </form>
+  </div>
+</div>
+
+<script>
+function togglePassword() {
+  const passwordInput = document.getElementById('password');
+  const toggleButton = document.querySelector('.visibility-toggle');
+  
+  if (passwordInput.type === 'password') {
+    passwordInput.type = 'text';
+    toggleButton.textContent = 'Hide';
+  } else {
+    passwordInput.type = 'password';
+    toggleButton.textContent = 'Show';
+  }
+}
+</script>

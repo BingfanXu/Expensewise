@@ -1,0 +1,163 @@
+<style>
+
+.analytics-container {
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.metric-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.metric-title {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.metric-value {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.change-positive {
+  color: #22c55e;
+  font-size: 14px;
+}
+
+.change-negative {
+  color: #ef4444;
+  font-size: 14px;
+}
+
+.charts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.chart-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.chart-title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.chart-period {
+  color: #666;
+  font-size: 14px;
+}
+
+.chart-container {
+  height: 300px;
+  position: relative;
+}
+
+@media (max-width: 1024px) {
+  .metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .charts {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<div class="analytics-container">
+    <div class="header">
+      <h1>Spending recently</h1>
+      <span class="date">Nov 1 - Nov 25, 2024</span>
+    </div>
+  
+    <div class="metrics">
+      <div class="metric-card">
+        <div class="metric-title">Monthly Revenue</div>
+        <div class="metric-value">${{metrics.monthlyRevenue | number}}</div>
+        <div [class]="metrics.monthlyRevenueChange >= 0 ? 'change-positive' : 'change-negative'">
+          {{metrics.monthlyRevenueChange >= 0 ? '+' : ''}}{{metrics.monthlyRevenueChange}}% vs last month
+        </div>
+      </div>
+  
+      <div class="metric-card">
+        <div class="metric-title">Average spending Value</div>
+        <div class="metric-value">${{metrics.averageOrder}}</div>
+        <div [class]="metrics.averageOrderChange >= 0 ? 'change-positive' : 'change-negative'">
+          {{metrics.averageOrderChange >= 0 ? '+' : ''}}{{metrics.averageOrderChange}}% vs last month
+        </div>
+      </div>
+  
+      <div class="metric-card">
+        <div class="metric-title">Carbon Rate</div>
+        <div class="metric-value">{{metrics.conversionRate}}%</div>
+        <div [class]="metrics.conversionRateChange >= 0 ? 'change-positive' : 'change-negative'">
+          {{metrics.conversionRateChange >= 0 ? '+' : ''}}{{metrics.conversionRateChange}}% vs last month
+        </div>
+      </div>
+  
+      <div class="metric-card">
+        <div class="metric-title">Active suscription</div>
+        <div class="metric-value">{{metrics.activeCustomers | number}}</div>
+        <div [class]="metrics.activeCustomersChange >= 0 ? 'change-positive' : 'change-negative'">
+          {{metrics.activeCustomersChange >= 0 ? '+' : ''}}{{metrics.activeCustomersChange}}% vs last month
+        </div>
+      </div>
+    </div>
+  
+    <div class="charts">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Spending Growth</div>
+          <div class="chart-period">Last 30 days</div>
+        </div>
+        <div class="chart-container">
+          <canvas #salesChart></canvas>
+        </div>
+      </div>
+  
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Spending Overview</div>
+          <div class="chart-period">Last 6 months</div>
+        </div>
+        <div class="chart-container">
+          <canvas #customersChart></canvas>
+        </div>
+      </div>
+    </div>
+  </div>

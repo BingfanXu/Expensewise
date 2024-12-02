@@ -1,0 +1,272 @@
+<style>
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress {
+  height: 100%;
+  background-color: #1976d2;
+  transition: width 0.3s ease;
+}
+
+.goal-item {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.summary-item {
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.form-control,
+.button {
+  width: 100%;
+  height: 42px;
+}
+  
+</style>
+<!-- Create Goal Section -->
+<div class="goals-container">
+  <div class="header">
+    <div class="title-section">
+      <h1>Financial Goals</h1>
+    </div>
+  </div>
+ 
+  <div class="ai-insights-section">
+    <mat-card *ngFor="let insight of aiInsights">
+      <mat-card-header>
+        <mat-icon [ngStyle]="{'color': insight.score > 90 ? '#22c55e' : '#3b82f6'}">
+          auto_awesome
+        </mat-icon>
+        <mat-card-title>
+          {{insight.title}}
+          <span class="confidence">{{insight.score}}% confidence</span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="impact-text">{{insight.impact}}</div>
+        <div class="suggestions-list">
+          <div *ngFor="let suggestion of insight.suggestions" class="suggestion-item">
+            <mat-icon>arrow_right</mat-icon>
+            <span>{{suggestion}}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-card class="prediction-chart-card">
+    <mat-card-header>
+      <mat-card-title>AI Goal Prediction Analysis</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="chart-container">
+        <canvas id="predictionChart"></canvas>
+      </div>
+      <div class="prediction-insights">
+        <div class="insight-item" *ngFor="let prediction of goalPredictions">
+          <div class="insight-header">
+            <mat-icon>timeline</mat-icon>
+            <span>Predicted Path Analysis</span>
+          </div>
+          <div class="insight-content">
+            <p>Completion Date: {{prediction.predictedDate | date}}</p>
+            <p>Confidence: {{prediction.confidenceScore}}%</p>
+            <div class="optimizations">
+              <div *ngFor="let opt of prediction.optimizations" class="optimization-item">
+                <mat-icon>check_circle</mat-icon>
+                <span>{{opt}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  
+  <div class="predictions-section" *ngFor="let prediction of goalPredictions">
+    <mat-card>
+      <mat-card-content>
+        <div class="prediction-details">
+          <div class="prediction-score">
+            {{prediction.confidenceScore}}% Confidence
+          </div>
+          <div class="prediction-date">
+            Predicted completion: {{prediction.predictedDate | date}}
+          </div>
+        </div>
+        <div class="optimization-list">
+          <div *ngFor="let opt of prediction.optimizations" class="optimization-item">
+            {{opt}}
+          </div>
+        </div>
+        <button mat-button color="accent" (click)="getOptimizedGoalPath(prediction.goalId)">
+          Apply AI Optimization
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+ 
+  <div class="rewards-section">
+    <mat-card>
+      <mat-card-header>
+        <mat-icon>stars</mat-icon>
+        <mat-card-title>{{rewards.currentLevel}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="points">{{rewards.points}} pts</div>
+        <mat-progress-bar 
+          mode="determinate" 
+          [value]="(rewards.points/rewards.nextMilestone)*100">
+        </mat-progress-bar>
+        <div class="achievements">
+          <div *ngFor="let achievement of rewards.recentAchievements" class="achievement">
+            <mat-icon>emoji_events</mat-icon>
+            <div>
+              <h4>{{achievement.title}}</h4>
+              <p>{{achievement.description}}</p>
+              <span>+{{achievement.points}} pts</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+ 
+  <div class="challenges-section">
+    <h3>Active Challenges</h3>
+    <div class="challenges-grid">
+      <mat-card *ngFor="let challenge of challenges">
+        <mat-card-header>
+          <mat-card-title>{{challenge.title}}</mat-card-title>
+          <mat-card-subtitle>{{challenge.duration}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{challenge.description}}</p>
+          <mat-progress-bar mode="determinate" [value]="challenge.progress"></mat-progress-bar>
+          <div class="challenge-info">
+            <span>Reward: {{challenge.reward}} pts</span>
+            <span>Ends: {{challenge.endDate | date}}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+ 
+  <mat-card class="chart-card">
+    <mat-card-header>
+      <mat-card-title>Goals Progress Overview</mat-card-title>
+    </mat-card-header>
+    <div class="chart-container">
+      <canvas id="progressChart"></canvas>
+    </div>
+  </mat-card>
+ 
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>Create New Goal</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="goalForm" (ngSubmit)="onCreateGoal()">
+        <mat-form-field>
+          <mat-label>Goal Name</mat-label>
+          <input matInput formControlName="name" placeholder="e.g. Emergency Fund">
+        </mat-form-field>
+ 
+        <mat-form-field>
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category">
+            <mat-option value="savings">Savings</mat-option>
+            <mat-option value="investment">Investment</mat-option>
+            <mat-option value="debt">Debt Repayment</mat-option>
+            <mat-option value="purchase">Major Purchase</mat-option>
+          </mat-select>
+        </mat-form-field>
+ 
+        <mat-form-field>
+          <mat-label>Target Amount ($)</mat-label>
+          <input matInput type="number" formControlName="targetAmount">
+        </mat-form-field>
+ 
+        <mat-form-field>
+          <mat-label>Target Date</mat-label>
+          <input matInput type="date" formControlName="targetDate">
+        </mat-form-field>
+ 
+        <button mat-raised-button color="primary" type="submit" [disabled]="goalForm.invalid">
+          Create Goal
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+ 
+  <div class="goals-list">
+    <mat-card class="goal-card" *ngFor="let goal of goals">
+      <mat-card-header>
+        <div class="goal-header">
+          <h2>{{goal.name}}</h2>
+          <div class="category-badge">{{goal.category | titlecase}}</div>
+        </div>
+      </mat-card-header>
+ 
+      <mat-card-content>
+        <div class="goal-progress">
+          <mat-progress-bar mode="determinate" [value]="goal.progress">
+          </mat-progress-bar>
+          <div class="progress-labels">
+            <span>${{goal.currentAmount | number}}</span>
+            <span>${{goal.targetAmount | number}}</span>
+          </div>
+        </div>
+ 
+        <div class="goal-details">
+          <div class="detail-item">
+            <mat-icon>calendar_today</mat-icon>
+            <span>Target: {{goal.targetDate | date}}</span>
+          </div>
+          <div class="detail-item">
+            <mat-icon>trending_up</mat-icon>
+            <span>Progress: {{goal.progress}}%</span>
+          </div>
+        </div>
+ 
+        <div class="milestones" *ngIf="goal.milestones.length">
+          <h3>Milestones</h3>
+          <div class="milestone-item" *ngFor="let milestone of goal.milestones">
+            <span>{{milestone.title}}</span>
+            <span>{{milestone.date | date}}</span>
+            <span>${{milestone.amount | number}}</span>
+          </div>
+        </div>
+ 
+        <div class="goal-actions">
+          <button mat-button color="primary" (click)="onUpdateProgress(goal)">
+            <mat-icon>update</mat-icon>
+            Update Progress
+          </button>
+          <button mat-button>
+            <mat-icon>edit</mat-icon>
+            Edit Goal
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+ </div>

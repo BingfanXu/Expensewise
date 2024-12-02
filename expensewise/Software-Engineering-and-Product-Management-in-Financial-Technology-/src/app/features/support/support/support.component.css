@@ -1,0 +1,181 @@
+/* src/app/features/support/support/support.component.css */
+.support-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .support-section {
+    margin-bottom: 20px;
+  }
+  
+  .search-field {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .faq-items {
+    margin-left: 24px;
+    margin-top: 16px;
+  }
+  
+  .faq-item {
+    margin-bottom: 8px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 600px;
+  }
+  
+  .tickets-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .ticket-item {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 16px;
+    background: #fff;
+  }
+  
+  .ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  
+  .ticket-info h3 {
+    margin: 0 0 4px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .ticket-meta {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .ticket-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-left: 8px;
+  }
+  
+  .ticket-status.open {
+    background-color: #ffebee;
+    color: #c62828;
+  }
+  
+  .ticket-status.in-progress {
+    background-color: #fff3e0;
+    color: #ef6c00;
+  }
+  
+  .ticket-status.closed {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+  
+  .last-update {
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .ticket-description {
+    margin: 0 0 16px;
+    color: #444;
+  }
+  
+  .ticket-actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  mat-card-header {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  mat-card-header mat-icon {
+    color: #666;
+  }
+  
+  @media (max-width: 600px) {
+    .support-container {
+      padding: 10px;
+    }
+  
+    .ticket-header {
+      flex-direction: column;
+      gap: 8px;
+    }
+  
+    .ticket-actions {
+      flex-direction: column;
+    }
+    /* support.component.css */
+    .support-container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+
+    h2 {
+      margin: 24px 0 16px;
+      font-size: 20px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.87);
+    }
+
+    .search-field {
+      width: 100%;
+      margin-bottom: 24px;
+    }
+
+    .full-width {
+      width: 100%;
+    }
+
+    mat-form-field {
+      margin-bottom: 16px;
+    }
+
+    button[type="submit"] {
+      margin-bottom: 24px;
+    }
+
+    mat-expansion-panel {
+      margin-bottom: 8px;
+    }
+
+    .tickets-list {
+      margin-top: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .support-container {
+        padding: 0 16px;
+      }
+    }
+    
+  }

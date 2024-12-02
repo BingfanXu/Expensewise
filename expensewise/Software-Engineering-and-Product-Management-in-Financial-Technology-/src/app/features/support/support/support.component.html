@@ -1,0 +1,67 @@
+
+<div class="support-container">
+  <!-- Help Center Section -->
+  <h2>Help Center</h2>
+  
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search Help Articles</mat-label>
+    <input matInput placeholder="Type to search...">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Getting Started</mat-panel-title>
+      </mat-expansion-panel-header>
+      <!-- Panel content -->
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Account & Security</mat-panel-title>
+      </mat-expansion-panel-header>
+      <!-- Panel content -->
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Transactions & Budgets</mat-panel-title>
+      </mat-expansion-panel-header>
+      <!-- Panel content -->
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <!-- Submit Ticket Section -->
+  <h2>Submit Support Ticket</h2>
+  
+  <form [formGroup]="ticketForm" (ngSubmit)="onSubmitTicket()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Subject</mat-label>
+      <input matInput formControlName="subject">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category">
+        <mat-option value="technical">Technical Issue</mat-option>
+        <mat-option value="account">Account Related</mat-option>
+        <mat-option value="billing">Billing Question</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput rows="6" formControlName="description"></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Submit Ticket</button>
+  </form>
+
+  <!-- My Tickets Section -->
+  <h2>My Tickets</h2>
+  
+  <div class="tickets-list">
+    <!-- Ticket items -->
+  </div>
+</div>

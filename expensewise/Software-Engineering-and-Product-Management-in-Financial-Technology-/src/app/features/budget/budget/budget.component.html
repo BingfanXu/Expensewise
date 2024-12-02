@@ -1,0 +1,134 @@
+<style>
+  /* Add these additional styles */
+  .form-control, 
+  .button {
+    width: 100%; /* Make all form controls full width */
+    box-sizing: border-box; /* Include padding and border in width */
+  }
+
+  select.form-control {
+    width: 100%;
+    height: 42px; /* Match the height of other inputs */
+  }
+
+  input[type="date"].form-control {
+    width: 100%;
+    height: 42px; /* Match the height of other inputs */
+  }
+
+  .button {
+    width: 100%;
+    height: 42px; /* Match height with inputs */
+    margin-top: 20px; /* Add some space above button */
+  }
+</style>
+<!-- src/app/features/budget/budget/budget.component.html -->
+<div class="budget-container">
+    <!-- Monthly Overview Section -->
+    <mat-card class="budget-section">
+      <mat-card-header>
+        <mat-icon>account_balance_wallet</mat-icon>
+        <mat-card-title>Monthly Overview</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="summary-grid">
+          <div class="summary-item">
+            <div class="summary-label">Total Budget</div>
+            <div class="summary-value">{{formatCurrency(monthlySummary.totalBudget)}}</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Total Spent</div>
+            <div class="summary-value">{{formatCurrency(monthlySummary.totalSpent)}}</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Remaining</div>
+            <div class="summary-value">{{formatCurrency(monthlySummary.totalRemaining)}}</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Month Progress</div>
+            <div class="progress-container">
+              <mat-progress-bar
+                [value]="getMonthProgress()"
+                color="primary">
+              </mat-progress-bar>
+              <span>{{getMonthProgress() | number:'1.0-0'}}%</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  
+    <div class="section">
+      <h2 class="section-title">Create New Budget</h2>
+      
+      <form [formGroup]="budgetForm" (ngSubmit)="onCreateBudget()">
+        <div class="form-group">
+          <select class="form-control" id="category" formControlName="category" placeholder=" ">
+            <option value="" disabled selected></option>
+            <option *ngFor="let cat of categories" [value]="cat.id">
+              {{cat.name}}
+            </option>
+          </select>
+          <label for="category" class="form-label">Category</label>
+        </div>
+    
+        <div class="form-group">
+          <input type="number" class="form-control" id="amount" placeholder=" " formControlName="amount">
+          <label for="amount" class="form-label">Amount</label>
+        </div>
+    
+        <div class="form-group">
+          <input type="date" class="form-control" id="startDate" placeholder=" " formControlName="startDate">
+          <label for="startDate" class="form-label">Start Date</label>
+        </div>
+    
+        <div class="form-group">
+          <input type="date" class="form-control" id="endDate" placeholder=" " formControlName="endDate">
+          <label for="endDate" class="form-label">End Date</label>
+        </div>
+    
+        <button type="submit" class="button button-primary" [disabled]="budgetForm.invalid">
+          Create Budget
+        </button>
+      </form>
+    </div>
+  
+    <!-- Budget Categories Section -->
+    <mat-card class="budget-section">
+      <mat-card-header>
+        <mat-icon>pie_chart</mat-icon>
+        <mat-card-title>Budget Categories</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="categories-list">
+          <div class="category-item" *ngFor="let budget of budgets">
+            <div class="category-header">
+              <div class="category-info">
+                <h3>{{budget.category}}</h3>
+                <div class="amount-info">
+                  <span class="spent">{{formatCurrency(budget.spent)}}</span>
+                  <span class="allocated">of {{formatCurrency(budget.allocated)}}</span>
+                </div>
+              </div>
+              <div class="remaining" [class.over-budget]="budget.remaining < 0">
+                {{formatCurrency(budget.remaining)}} remaining
+              </div>
+            </div>
+  
+            <mat-progress-bar
+              [value]="calculateProgress(budget.spent, budget.allocated)"
+              [color]="getProgressColor(budget.spent, budget.allocated)">
+            </mat-progress-bar>
+  
+            <div class="transactions-list">
+              <div class="transaction" *ngFor="let trans of budget.transactions">
+                <span class="transaction-date">{{trans.date | date}}</span>
+                <span class="transaction-desc">{{trans.description}}</span>
+                <span class="transaction-amount">{{formatCurrency(trans.amount)}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>

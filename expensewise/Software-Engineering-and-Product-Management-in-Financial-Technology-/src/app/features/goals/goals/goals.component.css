@@ -1,0 +1,139 @@
+/* src/app/features/goals/goals/goals.component.css */
+.goals-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .goal-section {
+    margin-bottom: 20px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 600px;
+  }
+  
+  .goals-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .goal-item {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 16px;
+    background: #fff;
+  }
+  
+  .goal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  
+  .goal-info h3 {
+    margin: 0 0 4px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .goal-category {
+    font-size: 14px;
+    color: #666;
+    text-transform: capitalize;
+  }
+  
+  .goal-amount {
+    text-align: right;
+  }
+  
+  .goal-amount .current-amount {
+    font-size: 20px;
+    font-weight: 500;
+    color: #1976d2;
+  }
+  
+  .goal-amount .target-amount {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .goal-progress {
+    margin-bottom: 16px;
+  }
+  
+  .goal-progress .progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .goal-actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .summary-item {
+    padding: 16px;
+    background: #f5f5f5;
+    border-radius: 4px;
+    text-align: center;
+  }
+  
+  .summary-item .summary-label {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+  }
+  
+  .summary-item .summary-value {
+    font-size: 24px;
+    font-weight: 500;
+    color: #1976d2;
+  }
+  
+  mat-card-header {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  mat-card-header mat-icon {
+    color: #666;
+  }
+  
+  @media (max-width: 600px) {
+    .goals-container {
+      padding: 10px;
+    }
+  
+    .goal-header {
+      flex-direction: column;
+      gap: 12px;
+    }
+  
+    .goal-amount {
+      text-align: left;
+    }
+  
+    .summary-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }

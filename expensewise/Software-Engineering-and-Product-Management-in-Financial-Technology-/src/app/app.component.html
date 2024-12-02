@@ -1,0 +1,73 @@
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+}
+/* app.component.css */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+mat-toolbar {
+  flex: 0 0 auto;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-sidenav-container {
+  flex: 1 1 auto;
+}
+
+mat-sidenav {
+  width: 250px;
+}
+
+mat-sidenav-content {
+  padding: 20px;
+}
+</style>
+<div class="app-container">
+  <mat-toolbar color="primary">
+    <span>ExpenseWise</span>
+    <span class="spacer"></span>
+    <button mat-icon-button>
+      <mat-icon>notifications</mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <mat-sidenav-container>
+    <mat-sidenav mode="side" opened>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/security">
+          <mat-icon>1.</mat-icon> Security
+        </a>
+        <a mat-list-item routerLink="/support">
+          <mat-icon>2.</mat-icon> Support
+        </a>
+        <a mat-list-item routerLink="/analytics">
+          <mat-icon>3.</mat-icon> Analytics
+        </a>
+        <a mat-list-item routerLink="/budget">
+          <mat-icon>4.</mat-icon> Budget
+        </a>
+        <a mat-list-item routerLink="/goals">
+          <mat-icon>5.</mat-icon> Goals
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
